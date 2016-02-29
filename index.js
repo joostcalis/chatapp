@@ -21,8 +21,8 @@ const app = feathers()
 MongoClient.connect('mongodb://localhost:27017/feathers-demo').then(function(db){
   // Connect to the db, create and register a Feathers service.
 
-  app.use('/todos', service({
-    Model: db.collection('todos'),
+  app.use('/generals', service({
+    Model: db.collection('generals'),
     paginate: {
       default: 100,
       max: 100
