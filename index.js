@@ -18,7 +18,10 @@ const app = feathers()
   .use(bodyParser.urlencoded({extended: true}));
 
   // Connect to your MongoDB instance(s)
-MongoClient.connect('mongodb://localhost:27017/feathers-demo').then(function(db){
+  const mongo_url = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/feathers-demo';
+
+    // Connect to your MongoDB instance(s)
+  MongoClient.connect(mongo_url).then(function(db){
   // Connect to the db, create and register a Feathers service.
 
   app.use('/generals', service({
@@ -31,11 +34,12 @@ MongoClient.connect('mongodb://localhost:27017/feathers-demo').then(function(db)
 
   // A basic error handler, just like Express
   // app.use(errors.handler());
-
+  var port = process.env.PORT || 3030;
+  var server = app.listen(port);
   // Start the server
-  var server = app.listen(3030);
+
   server.on('listening', function() {
-    console.log('Feathers Message MongoDB service running on 127.0.0.1:3030');
+    console.log('Feathers Message MongoDB service running on ' + port);
   });
 }).catch(function(error){
   console.error(error);
